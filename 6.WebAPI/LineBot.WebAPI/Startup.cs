@@ -29,6 +29,17 @@ namespace LineBot.WebAPI
 
             services.AddControllers();
 
+            services.AddCors(opt => 
+            {
+                opt.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+                });
+            });
+
             services.Configure<LineBotSetting>(Configuration.GetSection("LineBotSetting"));
         }
 
@@ -43,6 +54,8 @@ namespace LineBot.WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
