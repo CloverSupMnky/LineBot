@@ -1,4 +1,4 @@
-using LineBot.Asset.Model;
+using LineBot.Asset.Model.AppSetting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

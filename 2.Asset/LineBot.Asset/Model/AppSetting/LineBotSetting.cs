@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LineBot.Asset.Model
+namespace LineBot.Asset.Model.AppSetting
 {
     public class LineBotSetting
     {
