@@ -1,4 +1,6 @@
 using LineBot.Asset.Model.AppSetting;
+using LineBot.Module.Interface;
+using LineBot.Module.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,6 +43,8 @@ namespace LineBot.WebAPI
             });
 
             services.Configure<LineBotSetting>(Configuration.GetSection("LineBotSetting"));
+
+            services.AddScoped<IReplyMessageService, ReplyMessageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

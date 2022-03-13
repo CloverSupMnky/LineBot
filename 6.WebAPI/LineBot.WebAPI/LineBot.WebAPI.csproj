@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\2.Asset\LineBot.Asset\LineBot.Asset.csproj" />
+    <ProjectReference Include="..\..\5.Module\LineBot.Module.Interface\LineBot.Module.Interface.csproj" />
+    <ProjectReference Include="..\..\5.Module\LineBot.Module.Service\LineBot.Module.Service.csproj" />
   </ItemGroup>
 
 </Project>

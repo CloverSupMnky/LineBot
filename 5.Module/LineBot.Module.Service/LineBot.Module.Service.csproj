@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\1.Plugins\LineBot.Plugins\LineBot.Plugins.csproj" />
+    <ProjectReference Include="..\LineBot.Module.Interface\LineBot.Module.Interface.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,6 +1,8 @@
 ﻿using LineBot.Asset.Model.Req;
+using LineBot.Module.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LineBot.WebAPI.Controllers
 {
@@ -8,9 +10,18 @@ namespace LineBot.WebAPI.Controllers
     [ApiController]
     public class LineBotController : ControllerBase
     {
-        [HttpPost("[action]")]
-        public IActionResult ReplyTextMessage(ReplyTextMessageReq req) 
+        private readonly IReplyMessageService replyMessageService;
+
+        public LineBotController(IReplyMessageService replyMessageService)
         {
+            this.replyMessageService = replyMessageService;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ReplyTextMessage(ReplyTextMessageReq req) 
+        {
+            await this.replyMessageService.ReplyTextMessage(req.Text);
+
             return Ok(req.Text);
         }
     }
