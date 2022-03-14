@@ -1,36 +1,25 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using LineBot.Entity.Models;
+using LineBot.Entitys.Models;
 
-#nullable disable
-
-namespace LineBot.Entity.Contexts
+namespace LineBot.Entitys.Contexts
 {
     public partial class LineBotContext : DbContext
     {
-        public LineBotContext()
-        {
-        }
-
-        public LineBotContext(DbContextOptions<LineBotContext> options)
-            : base(options)
-        {
-        }
-
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PersonalLiability> PersonalLiabilities { get; set; }
         public virtual DbSet<RentFixedFee> RentFixedFees { get; set; }
         public virtual DbSet<Sysparam> Sysparams { get; set; }
         public virtual DbSet<UtilityFee> UtilityFees { get; set; }
 
+        public LineBotContext(DbContextOptions<LineBotContext> options) : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=ec2-52-45-238-24.compute-1.amazonaws.com;Database=d8eb2jm5fse32r;Username=oeibbdsxltadus;Password=150d3b1c00b6541644a8711bb8f06dfb24b971f2e689c6f5c2491a5e0ab63a75;Sslmode=Require;Trust Server Certificate=true");
-            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

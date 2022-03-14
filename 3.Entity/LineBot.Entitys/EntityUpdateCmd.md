@@ -11,6 +11,7 @@ Microsoft.EntityFrameworkCore
 Microsoft.EntityFrameworkCore.Design
 Microsoft.EntityFrameworkCore.Tools(需要使用 Enables these commonly used commands:
 Add-Migration 安裝)
+URF.Core.EF.Trackable
 ```
 
 *安裝使用 DB 對應的相關套件
@@ -22,6 +23,9 @@ Npgsql.EntityFrameworkCore.PostgreSQL.Design
 *安裝自動產生 Entity 文本用套件
 ```
 EntityFrameworkCore.Scaffolding.Handlebars
+
+1.安裝後新增 ScaffoldingDesignTimeServices 並重新執行 Entity 更新指令
+2.修改 CodeTemplates 內容，並重新執行 Entity 更新指令
 ```
 
 ## Scaffolding
