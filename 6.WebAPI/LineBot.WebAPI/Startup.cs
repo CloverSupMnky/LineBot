@@ -55,9 +55,8 @@ namespace LineBot.WebAPI
             services.AddDbContext<LineBotContext>(options => options.UseNpgsql(Configuration.GetConnectionString("LineBotNpgsql")));
 
             services.AddScoped<DbContext,LineBotContext>();
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IReplyMessageService, ReplyMessageService>();
-            services.AddScoped<ILineBotUnitOfWork, LineBotUnitOfWork>();
             services.AddScoped<ITrackableRepository<Person>, TrackableRepository<Person>>();
             services.AddScoped<ITrackableRepository<PersonalLiability>, TrackableRepository<PersonalLiability>>();
             services.AddScoped<ITrackableRepository<RentFixedFee>, TrackableRepository<RentFixedFee>>();
