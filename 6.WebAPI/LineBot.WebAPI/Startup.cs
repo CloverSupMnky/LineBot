@@ -4,6 +4,7 @@ using LineBot.Entitys.Contexts;
 using LineBot.Entitys.Models;
 using LineBot.Module.Interface;
 using LineBot.Module.Service;
+using LineBot.WebAPI.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,6 +39,10 @@ namespace LineBot.WebAPI
         {
 
             services.AddControllers();
+
+            // 註冊自訂義 Filter
+            // 若 Controller 那使用 TypeFilter(可以帶參數) 就不需註冊
+            services.AddScoped<VerifySignatureFilter>();
 
             services.AddCors(opt => 
             {
