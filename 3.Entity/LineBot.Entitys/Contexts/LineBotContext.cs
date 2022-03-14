@@ -47,9 +47,13 @@ namespace LineBot.Entitys.Contexts
                 entity.HasKey(e => e.SeqNo)
                     .HasName("PersonalLiabilities_pkey");
 
+                entity.ToTable("PersonalLiability");
+
                 entity.HasComment("人員負債表");
 
-                entity.Property(e => e.SeqNo).HasComment("流水號");
+                entity.Property(e => e.SeqNo)
+                    .HasDefaultValueSql("nextval('\"PersonalLiabilities_SeqNo_seq\"'::regclass)")
+                    .HasComment("流水號");
 
                 entity.Property(e => e.ClosedOn).HasComment("結清債務時間");
 

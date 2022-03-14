@@ -11,12 +11,6 @@ namespace LineBot.Asset.Enum
     /// </summary>
     public enum MessageType
     {
-        Text,
-        Image,
-        Video,
-        Audio,
-        File,
-        Location,
-        Sticker
+        text
     }
 }

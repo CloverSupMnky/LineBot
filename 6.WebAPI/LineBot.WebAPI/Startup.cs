@@ -40,6 +40,14 @@ namespace LineBot.WebAPI
 
             services.AddControllers();
 
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                // 忽略回圈參考
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                // 設定時間格式
+                options.SerializerSettings.DateFormatString = "yyyy'/'MM'/'dd HH':'mm':'ss.FFFFFFFK";
+            });
+
             // 註冊自訂義 Filter
             // 若 Controller 那使用 TypeFilter(可以帶參數) 就不需註冊
             services.AddScoped<VerifySignatureFilter>();
@@ -61,7 +69,7 @@ namespace LineBot.WebAPI
 
             services.AddScoped<DbContext,LineBotContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IReplyMessageService, ReplyMessageService>();
+            services.AddScoped<IPushMessageService, PushMessageService>();
             services.AddScoped<ITrackableRepository<Person>, TrackableRepository<Person>>();
             services.AddScoped<ITrackableRepository<PersonalLiability>, TrackableRepository<PersonalLiability>>();
             services.AddScoped<ITrackableRepository<RentFixedFee>, TrackableRepository<RentFixedFee>>();

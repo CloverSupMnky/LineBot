@@ -1,4 +1,5 @@
-﻿using LineBot.Asset.Model.Req;
+﻿using LineBot.Asset.Model.LineBot;
+using LineBot.Asset.Model.Req;
 using LineBot.Module.Interface;
 using LineBot.WebAPI.Filters;
 using Microsoft.AspNetCore.Http;
@@ -11,20 +12,20 @@ namespace LineBot.WebAPI.Controllers
     [ApiController]
     public class LineBotController : ControllerBase
     {
-        private readonly IReplyMessageService replyMessageService;
+        private readonly IPushMessageService pushMessageService;
 
-        public LineBotController(IReplyMessageService replyMessageService)
+        public LineBotController(IPushMessageService pushMessageService)
         {
-            this.replyMessageService = replyMessageService;
+            this.pushMessageService = pushMessageService;
         }
 
-        [HttpPost("[action]")]
+        [HttpPost]
         [ServiceFilter(typeof(VerifySignatureFilter))]
-        public async Task<IActionResult> ReplyTextMessage(ReplyTextMessageReq req) 
+        public async Task<IActionResult> Post(WebHookEvent req)
         {
-            await this.replyMessageService.ReplyTextMessage(req.Text);
+            await this.pushMessageService.QueryRent(req);
 
-            return Ok(req.Text);
+            return Ok();
         }
     }
 }

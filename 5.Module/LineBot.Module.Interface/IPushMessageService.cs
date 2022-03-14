@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 namespace LineBot.Module.Interface
 {
-    public interface IReplyMessageService
+    public interface IPushMessageService
     {
-        Task ReplyTextMessage(string text);
+        /// <summary>
+        /// 接收查詢房租訊息
+        /// </summary>
+        Task QueryRent(WebHookEvent req);
     }
 }

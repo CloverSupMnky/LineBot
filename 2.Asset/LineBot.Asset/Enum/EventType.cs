@@ -8,8 +8,6 @@ namespace LineBot.Asset.Enum
 {
     public enum EventType
     {
-        Message,
-        Follow,
-        Unfollow
+        message
     }
 }

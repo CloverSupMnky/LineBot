@@ -8,8 +8,8 @@ namespace LineBot.Asset.Enum
 {
     public enum SourceType
     {
-        User,
-        Group,
-        Room,
+        user,
+        group,
+        room,
     }
 }
