@@ -25,6 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LineBot.Module.Interface", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LineBot.Entitys", "3.Entity\LineBot.Entitys\LineBot.Entitys.csproj", "{3EC79C4E-4C79-4EE2-8337-5E618E568672}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.SourceItem", "0.SourceItem", "{0BBC5C96-81D5-4983-877B-B795FC2AD5FB}"
+	ProjectSection(SolutionItems) = preProject
+		HeroKu佈署說明.txt = HeroKu佈署說明.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
