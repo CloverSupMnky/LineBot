@@ -166,5 +166,22 @@ namespace LineBot.Module.Service
 
             await this.unitOfWork.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// 新增公共租金項目
+        /// </summary>
+        /// <param name="utilityFee"></param>
+        public async Task InsertUtilityFee(UtilityFee utilityFee)
+        {
+            DateTime startTime = new DateTime(1970, 1, 1, 8, 0, 0);
+
+            utilityFee.CreateOn = 
+                Convert.ToInt32((DateTime.Now - startTime).TotalSeconds);
+            utilityFee.IsClosed = false;
+
+            this.utilityFeeRepo.Insert(utilityFee);
+
+            await this.unitOfWork.SaveChangesAsync();
+        }
     }
 }

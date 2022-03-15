@@ -33,5 +33,10 @@ namespace LineBot.Module.Interface
         /// 依 GroupId 取得系統參數資料
         /// </summary>
         IEnumerable<SystemparamDTO> GetSysparamByGroupId(string groupId);
+
+        /// <summary>
+        /// 新增公共租金項目
+        /// </summary>
+        Task InsertUtilityFee(UtilityFee utilityFee);
     }
 }

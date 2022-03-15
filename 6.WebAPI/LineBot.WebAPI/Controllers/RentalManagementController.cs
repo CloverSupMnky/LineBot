@@ -50,5 +50,22 @@ namespace LineBot.WebAPI.Controllers
 
             return Success(res);
         }
+
+        [HttpPost("[action]")]
+        public IActionResult GetUtilitySelectList()
+        {
+            var res = this.rentalManagementService
+                .GetSysparamByGroupId(SysparamGroupId.UtilityFee);
+
+            return Success(res);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> InsertUtilityFee(UtilityFee utilityFee)
+        {
+            await this.rentalManagementService.InsertUtilityFee(utilityFee);
+
+            return Success(true);
+        }
     }
 }
