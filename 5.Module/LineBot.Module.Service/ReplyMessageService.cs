@@ -15,7 +15,7 @@ using URF.Core.Abstractions.Trackable;
 
 namespace LineBot.Module.Service
 {
-    public class PushMessageService : IPushMessageService
+    public class ReplyMessageService : IReplyMessageService
     {
         private readonly IOptions<LineBotSetting> lineBotSetting;
         private readonly ITrackableRepository<RentFixedFee> rentFixedFeeRepo;
@@ -23,7 +23,7 @@ namespace LineBot.Module.Service
         private readonly ITrackableRepository<Person> personRepo;
         private readonly ITrackableRepository<PersonalLiability> personalLiabilityRepo;
 
-        public PushMessageService(
+        public ReplyMessageService(
             IOptions<LineBotSetting> lineBotSetting,
             ITrackableRepository<RentFixedFee> rentFixedFeeRepo,
             ITrackableRepository<UtilityFee> utilityFeeRepo,
@@ -55,7 +55,7 @@ namespace LineBot.Module.Service
             var textMessage = this.GetTextMessages();
 
             // 發送訊息
-            await this.PushTextMessage(textMessage,reqEvent.ReplyToken);
+            await this.ReplyTextMessage(textMessage,reqEvent.ReplyToken);
         }
 
         /// <summary>
@@ -207,11 +207,12 @@ namespace LineBot.Module.Service
         /// <summary>
         /// 發送 LineBot 文字訊息
         /// </summary>
-        private async Task PushTextMessage(List<TextMessage> messages, string replyToken)
+        private async Task ReplyTextMessage(
+            List<TextMessage> messages, string replyToken)
         {
             var req = new
             {
-                to = replyToken,
+                replyToken = replyToken,
                 messages = messages
             };
 
@@ -223,16 +224,16 @@ namespace LineBot.Module.Service
                     NullValueHandling = NullValueHandling.Ignore
                 });
 
-            await this.Push(reqJson);
+            await this.Reply(reqJson);
         }
 
         /// <summary>
         /// 發送訊息
         /// </summary>
-        private async Task Push(string reqJson)
+        private async Task Reply(string reqJson)
         {
             var httpReqMsg = new HttpRequestMessage(
-                HttpMethod.Post, @"https://api.line.me/v2/bot/message/push");
+                HttpMethod.Post, @"https://api.line.me/v2/bot/message/reply");
 
             // Content Type
             httpReqMsg.Content =

@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LineBot.Entitys", "3.Entity
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.SourceItem", "0.SourceItem", "{0BBC5C96-81D5-4983-877B-B795FC2AD5FB}"
 	ProjectSection(SolutionItems) = preProject
-		HeroKu佈署說明.txt = HeroKu佈署說明.txt
+		0.SourceItem\HeroKu佈署說明.txt = 0.SourceItem\HeroKu佈署說明.txt
 	EndProjectSection
 EndProject
 Global

@@ -65,7 +65,7 @@ namespace LineBot.WebAPI
 
             services.Configure<LineBotSetting>(Configuration.GetSection("LineBotSetting"));
 
-            services.AddScoped<IPushMessageService, PushMessageService>();
+            services.AddScoped<IReplyMessageService, ReplyMessageService>();
             services.AddScoped<IRentalManagementService, RentalManagementService>();
 
             #region Entity ¬ÛÃö

@@ -12,18 +12,18 @@ namespace LineBot.WebAPI.Controllers
     [ApiController]
     public class LineBotController : ControllerBase
     {
-        private readonly IPushMessageService pushMessageService;
+        private readonly IReplyMessageService replyMessageService;
 
-        public LineBotController(IPushMessageService pushMessageService)
+        public LineBotController(IReplyMessageService replyMessageService)
         {
-            this.pushMessageService = pushMessageService;
+            this.replyMessageService = replyMessageService;
         }
 
         [HttpPost]
         [ServiceFilter(typeof(VerifySignatureFilter))]
         public async Task<IActionResult> Post(WebHookEvent req)
         {
-            await this.pushMessageService.QueryRent(req);
+            await this.replyMessageService.QueryRent(req);
 
             return Ok();
         }

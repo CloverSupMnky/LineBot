@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LineBot.Module.Interface
 {
-    public interface IPushMessageService
+    public interface IReplyMessageService
     {
         /// <summary>
         /// 接收查詢房租訊息
