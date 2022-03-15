@@ -65,16 +65,23 @@ namespace LineBot.WebAPI
 
             services.Configure<LineBotSetting>(Configuration.GetSection("LineBotSetting"));
 
+            services.AddScoped<IPushMessageService, PushMessageService>();
+            services.AddScoped<IRentalManagementService, RentalManagementService>();
+
+            #region Entity ¬ÛÃö
+
             services.AddDbContext<LineBotContext>(options => options.UseNpgsql(Configuration.GetConnectionString("LineBotNpgsql")));
 
             services.AddScoped<DbContext,LineBotContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IPushMessageService, PushMessageService>();
+            
             services.AddScoped<ITrackableRepository<Person>, TrackableRepository<Person>>();
             services.AddScoped<ITrackableRepository<PersonalLiability>, TrackableRepository<PersonalLiability>>();
             services.AddScoped<ITrackableRepository<RentFixedFee>, TrackableRepository<RentFixedFee>>();
             services.AddScoped<ITrackableRepository<Sysparam>, TrackableRepository<Sysparam>>();
             services.AddScoped<ITrackableRepository<UtilityFee>, TrackableRepository<UtilityFee>>();
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
