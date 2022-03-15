@@ -22,19 +22,22 @@ namespace LineBot.Module.Service
         private readonly ITrackableRepository<Person> personRepo;
         private readonly ITrackableRepository<PersonalLiability> personalLiabilityRepo;
         private readonly IUnitOfWork unitOfWork;
+        private readonly ITrackableRepository<Sysparam> sysparamRepo;
 
         public RentalManagementService(
             ITrackableRepository<RentFixedFee> rentFixedFeeRepo,
             ITrackableRepository<UtilityFee> utilityFeeRepo,
             ITrackableRepository<Person> personRepo,
             ITrackableRepository<PersonalLiability> personalLiabilityRepo,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ITrackableRepository<Sysparam> sysparamRepo)
         {
             this.rentFixedFeeRepo = rentFixedFeeRepo;
             this.utilityFeeRepo = utilityFeeRepo;
             this.personRepo = personRepo;
             this.personalLiabilityRepo = personalLiabilityRepo;
             this.unitOfWork = unitOfWork;
+            this.sysparamRepo = sysparamRepo;
         }
 
         /// <summary>
@@ -129,54 +132,39 @@ namespace LineBot.Module.Service
             switch (type)
             {
                 case RentType.Fixed:
-                    await this.DeleteFixed(seqNo);
+                    await this.rentFixedFeeRepo.DeleteAsync(seqNo);
                     break;
                 case RentType.Utility:
-                    await this.DeleteUtility(seqNo);
+                    await this.utilityFeeRepo.DeleteAsync(seqNo);
                     break;
                 case RentType.PersonalLiability:
-                    await this.DeletePersonalLiability(seqNo);
+                    await this.personalLiabilityRepo.DeleteAsync(seqNo);
                     break;
             }
         }
 
         /// <summary>
-        /// 刪除租金固定費用
+        /// 依 GroupId 取得系統參數資料
         /// </summary>
-        private async Task DeleteFixed(int seqNo)
+        public IEnumerable<SystemparamDTO> GetSysparamByGroupId(string groupId)
         {
-            var rentFixed = this.rentFixedFeeRepo.Queryable()
-                .FirstOrDefault(r => r.SeqNo == seqNo);
-
-            if (rentFixed == null) return;
-
-            await this.rentFixedFeeRepo.DeleteAsync(rentFixed);
+            return this.sysparamRepo.Queryable()
+                .Where(s => s.GroupId == groupId)
+                .Select(s => new SystemparamDTO 
+                {
+                    ItemId = s.ItemId,
+                    ItemValue = s.ItemValue
+                });
         }
 
         /// <summary>
-        /// 刪除租金公共費用
+        /// 新增固定租金項目
         /// </summary>
-        private async Task DeleteUtility(int seqNo)
+        public async Task InsertFixedFee(RentFixedFee rentFixedFee)
         {
-            var utilityFee = this.utilityFeeRepo.Queryable()
-                .FirstOrDefault(u => u.SeqNo == seqNo);
+            this.rentFixedFeeRepo.Insert(rentFixedFee);
 
-            if (utilityFee == null) return;
-
-            await this.utilityFeeRepo.DeleteAsync(utilityFee);
-        }
-
-        /// <summary>
-        /// 刪除人員欠債費用
-        /// </summary>
-        private async Task DeletePersonalLiability(int seqNo)
-        {
-            var personalLiability = this.personalLiabilityRepo.Queryable()
-                .FirstOrDefault(p => p.SeqNo == seqNo);
-
-            if (personalLiability == null) return;
-
-            await this.personalLiabilityRepo.DeleteAsync(personalLiability);
+            await this.unitOfWork.SaveChangesAsync();
         }
     }
 }

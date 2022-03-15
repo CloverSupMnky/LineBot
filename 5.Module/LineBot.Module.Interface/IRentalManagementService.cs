@@ -1,4 +1,5 @@
 ﻿using LineBot.Asset.Model.Resp;
+using LineBot.Entitys.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,15 @@ namespace LineBot.Module.Interface
         /// 刪除租金項目
         /// </summary>
         Task DeleteRentItem(RentDetail detail);
+
+        /// <summary>
+        /// 新增固定租金項目
+        /// </summary>
+        Task InsertFixedFee(RentFixedFee rentFixedFee);
+
+        /// <summary>
+        /// 依 GroupId 取得系統參數資料
+        /// </summary>
+        IEnumerable<SystemparamDTO> GetSysparamByGroupId(string groupId);
     }
 }

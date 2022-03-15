@@ -1,4 +1,6 @@
-﻿using LineBot.Asset.Model.Resp;
+﻿using LineBot.Asset.Constant;
+using LineBot.Asset.Model.Resp;
+using LineBot.Entitys.Models;
 using LineBot.Module.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +32,23 @@ namespace LineBot.WebAPI.Controllers
             await this.rentalManagementService.DeleteRentItem(detail);
 
             return Success(true);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> InsertFixedFee(RentFixedFee rentFixedFee)
+        {
+            await this.rentalManagementService.InsertFixedFee(rentFixedFee);
+
+            return Success(true);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult GetFixedSelectList()
+        {
+            var res = this.rentalManagementService
+                .GetSysparamByGroupId(SysparamGroupId.RentFixedFee);
+
+            return Success(res);
         }
     }
 }
