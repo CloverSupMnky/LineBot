@@ -17,5 +17,10 @@ namespace LineBot.Module.Interface
         /// </summary>
         /// <returns></returns>
         IEnumerable<RentDetail> GetRentDetail();
+
+        /// <summary>
+        /// 刪除租金項目
+        /// </summary>
+        Task DeleteRentItem(RentDetail detail);
     }
 }

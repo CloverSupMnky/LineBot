@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using URF.Core.Abstractions;
 using URF.Core.Abstractions.Trackable;
 
 namespace LineBot.Module.Service
@@ -20,17 +21,20 @@ namespace LineBot.Module.Service
         private readonly ITrackableRepository<UtilityFee> utilityFeeRepo;
         private readonly ITrackableRepository<Person> personRepo;
         private readonly ITrackableRepository<PersonalLiability> personalLiabilityRepo;
+        private readonly IUnitOfWork unitOfWork;
 
         public RentalManagementService(
             ITrackableRepository<RentFixedFee> rentFixedFeeRepo,
             ITrackableRepository<UtilityFee> utilityFeeRepo,
             ITrackableRepository<Person> personRepo,
-            ITrackableRepository<PersonalLiability> personalLiabilityRepo)
+            ITrackableRepository<PersonalLiability> personalLiabilityRepo,
+            IUnitOfWork unitOfWork)
         {
             this.rentFixedFeeRepo = rentFixedFeeRepo;
             this.utilityFeeRepo = utilityFeeRepo;
             this.personRepo = personRepo;
             this.personalLiabilityRepo = personalLiabilityRepo;
+            this.unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -104,6 +108,75 @@ namespace LineBot.Module.Service
                     Fee = p.Fee.ToString("N0"),
                     SeqNo = p.SeqNo
                 });
+        }
+
+        /// <summary>
+        /// 刪除租金項目
+        /// </summary>
+        public async Task DeleteRentItem(RentDetail detail)
+        {
+           await this.DeleteRentItemByTypeAndSeqNo(detail.Type,detail.SeqNo);
+
+           await this.unitOfWork.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// 依租金類型、序號刪除項目
+        /// </summary>
+        private async Task DeleteRentItemByTypeAndSeqNo(
+            RentType type, int seqNo)
+        {
+            switch (type)
+            {
+                case RentType.Fixed:
+                    await this.DeleteFixed(seqNo);
+                    break;
+                case RentType.Utility:
+                    await this.DeleteUtility(seqNo);
+                    break;
+                case RentType.PersonalLiability:
+                    await this.DeletePersonalLiability(seqNo);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 刪除租金固定費用
+        /// </summary>
+        private async Task DeleteFixed(int seqNo)
+        {
+            var rentFixed = this.rentFixedFeeRepo.Queryable()
+                .FirstOrDefault(r => r.SeqNo == seqNo);
+
+            if (rentFixed == null) return;
+
+            await this.rentFixedFeeRepo.DeleteAsync(rentFixed);
+        }
+
+        /// <summary>
+        /// 刪除租金公共費用
+        /// </summary>
+        private async Task DeleteUtility(int seqNo)
+        {
+            var utilityFee = this.utilityFeeRepo.Queryable()
+                .FirstOrDefault(u => u.SeqNo == seqNo);
+
+            if (utilityFee == null) return;
+
+            await this.utilityFeeRepo.DeleteAsync(utilityFee);
+        }
+
+        /// <summary>
+        /// 刪除人員欠債費用
+        /// </summary>
+        private async Task DeletePersonalLiability(int seqNo)
+        {
+            var personalLiability = this.personalLiabilityRepo.Queryable()
+                .FirstOrDefault(p => p.SeqNo == seqNo);
+
+            if (personalLiability == null) return;
+
+            await this.personalLiabilityRepo.DeleteAsync(personalLiability);
         }
     }
 }

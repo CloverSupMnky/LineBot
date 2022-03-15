@@ -1,6 +1,8 @@
-﻿using LineBot.Module.Interface;
+﻿using LineBot.Asset.Model.Resp;
+using LineBot.Module.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LineBot.WebAPI.Controllers
 {
@@ -20,6 +22,14 @@ namespace LineBot.WebAPI.Controllers
         public IActionResult GetRentDetail() 
         {
             return Success(this.rentalManagementService.GetRentDetail());
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> DeleteRentItem(RentDetail detail)
+        {
+            await this.rentalManagementService.DeleteRentItem(detail);
+
+            return Success(true);
         }
     }
 }
