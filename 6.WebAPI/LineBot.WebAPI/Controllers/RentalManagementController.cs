@@ -67,5 +67,21 @@ namespace LineBot.WebAPI.Controllers
 
             return Success(true);
         }
+
+        [HttpPost("[action]")]
+        public IActionResult GetPersonSelectList()
+        {
+            return Success(this.rentalManagementService.GetPersons());
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> InsertPersonalLiabilityFee(
+            PersonalLiability personalLiability)
+        {
+            await this.rentalManagementService
+                .InsertPersonalLiabilityFee(personalLiability);
+
+            return Success(true);
+        }
     }
 }

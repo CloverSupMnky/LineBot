@@ -183,5 +183,34 @@ namespace LineBot.Module.Service
 
             await this.unitOfWork.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// 取得人員資料
+        /// </summary>
+        public IEnumerable<PersonDTO> GetPersons()
+        {
+            return this.personRepo.Queryable().Select(p => new PersonDTO 
+            {
+                PersonId = p.PersonId,
+                PersonName = p.PersonName
+            });
+        }
+
+        /// <summary>
+        /// 新增人員欠債項目
+        /// </summary>
+        public async Task InsertPersonalLiabilityFee(
+            PersonalLiability personalLiability)
+        {
+            DateTime startTime = new DateTime(1970, 1, 1, 8, 0, 0);
+
+            personalLiability.CreateOn =
+                Convert.ToInt32((DateTime.Now - startTime).TotalSeconds);
+            personalLiability.IsClosed = false;
+
+            this.personalLiabilityRepo.Insert(personalLiability);
+
+            await this.unitOfWork.SaveChangesAsync();
+        }
     }
 }

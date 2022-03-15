@@ -38,5 +38,15 @@ namespace LineBot.Module.Interface
         /// 新增公共租金項目
         /// </summary>
         Task InsertUtilityFee(UtilityFee utilityFee);
+
+        /// <summary>
+        /// 取得人員資料
+        /// </summary>
+        IEnumerable<PersonDTO> GetPersons();
+
+        /// <summary>
+        /// 新增人員欠債項目
+        /// </summary>
+        Task InsertPersonalLiabilityFee(PersonalLiability personalLiability);
     }
 }
